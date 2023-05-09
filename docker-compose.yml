@@ -27,15 +27,15 @@ services:
      - /var/lib/nginx/tmp:size=60M,mode=1777,noexec
     environment:
       - "BACKEND_URL=${BACKEND_URL}"
-    command: /bin/bash -c "envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+    command: /bin/sh -c "envsubst '$BACKEND_URL'< /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
     # read_only: true
   frontend:
-    deploy:
-      resources:
-        limits:
-          cpus: "4"
-          memory: 2G
-    image: ghcr.io/frankgad/auto-gpt-webgui
+    # deploy:
+      # resources:
+      #   limits:
+      #     cpus: "1"
+      #     memory: 2G
+    image: ghcr.io/frankgad/auto-gpt-webgui:latest
     restart: always
     ports:
       - 7070:7070
